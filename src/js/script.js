@@ -103,6 +103,59 @@ class Product {
     // console.log('new Product:', thisProduct);
   }
 
+  prepareCartProduct(){
+    const thisProduct = this;
+
+    const productSummary = {};
+    productSummary.id = thisProduct.id;
+    productSummary.name = thisProduct.data.name;
+    productSummary.amount = thisProduct.amountWidget.value;
+    productSummary.priceSingle = thisProduct.priceSingle;
+    productSummary.price = thisProduct.price;
+    productSummary.params = thisProduct.prepareCartProductParams();
+    return productSummary;
+  }
+
+  prepareCartProductParams() {
+    const thisProduct = this;
+  
+    const formData = utils.serializeFormToObject(thisProduct.form);
+    const params = {};
+  
+    // for very category (param)
+    for(let paramId in thisProduct.data.params) {
+      const param = thisProduct.data.params[paramId];
+  
+      // create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
+      params[paramId] = {
+        label: param.label,
+        options: {}
+      }
+  
+      // for every option in this category
+      for(let optionId in param.options) {
+        const option = param.options[optionId];
+        const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+  
+        if(optionSelected) {
+          params[paramId].options[optionId] = option.label;
+        }
+      }
+    }
+  
+    return params;
+  }
+  
+
+  
+
+
+  addToCart(){
+    const thisProduct = this;
+
+    app.cart.add(thisProduct.prepareCartProduct());
+  }
+
   renderInMenu(){
     const thisProduct = this;
 
@@ -181,6 +234,7 @@ class Product {
     thisProduct.cartButton.addEventListener('click', function(event){
       event.preventDefault();
       thisProduct.processOrder();
+      thisProduct.addToCart();
     });
 
     // console.log('initOrderForm');
@@ -234,7 +288,10 @@ class Product {
       }
     }
   
+    thisProduct.priceSingle = price;
     price *= thisProduct.amountWidget.value;
+    
+    thisProduct.price = price;
     // update calculated price in the HTML
     thisProduct.priceElem.innerHTML = price;
   }
@@ -327,12 +384,21 @@ class Cart{
     thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
   }
 
-    initActions(){
-      const thisCart = this;
-      thisCart.dom.wrapper.addEventListener('click', function(){
-        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
-      })
-    }
+  initActions(){
+    const thisCart = this;
+    thisCart.dom.wrapper.addEventListener('click', function(){
+      thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+    })
+  }
+
+  add(menuProduct){
+    // const thisCart = this;
+
+    console.log('adding product', menuProduct);
+
+  }
+
+
 }
 
 
