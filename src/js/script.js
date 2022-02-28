@@ -1,3 +1,32 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@niedzielskiauto 
+niedzielskiauto
+/
+new-pizzeria
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+new-pizzeria/src/js/script.js /
+@niedzielskiauto
+niedzielskiauto finished counting priceSingle and price
+Latest commit 1b55d8e 17 days ago
+ History
+ 1 contributor
+450 lines (352 sloc)  12.3 KB
+   
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 
 {
