@@ -313,10 +313,8 @@ class AmountWidget {
 
     thisWidget.value = settings.amountWidget.defaultValue;
     
-    if(thisWidget.value !== newValue && !isNaN(newValue)) {
-      if (newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
+      if (newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax && thisWidget.value !== newValue && !isNaN(newValue)) {
         thisWidget.value = newValue;
-      }
     }
     
     thisWidget.announce();
@@ -458,7 +456,7 @@ class CartProduct {
     thisCartProduct.price = menuProduct.price;
     thisCartProduct.amount = menuProduct.amount;
     thisCartProduct.getElements(element);
-    thisCartProduct.AmountWidget();
+    thisCartProduct.amountWidget();
     thisCartProduct.initActions();
   }
 
@@ -473,7 +471,7 @@ class CartProduct {
       thisCartProduct.dom.remove = element.querySelector(select.cartProduct.remove);
   }
 
-  AmountWidget(){
+  amountWidget(){
     const thisCartProduct = this;
 
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
