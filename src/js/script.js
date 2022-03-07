@@ -106,20 +106,19 @@ class Product {
     thisProduct.initOrderForm();
     thisProduct.initAmountWidget();
     thisProduct.processOrder();
-
-    // console.log('new Product:', thisProduct);
   }
 
-  prepareCartProduct(){
+  prepareCartProduct() {
     const thisProduct = this;
 
-    const productSummary = {};
-    productSummary.id = thisProduct.id;
-    productSummary.name = thisProduct.data.name;
-    productSummary.amount = thisProduct.amountWidget.value;
-    productSummary.priceSingle = thisProduct.priceSingle;
-    productSummary.price = thisProduct.price;
-    productSummary.params = thisProduct.prepareCartProductParams();
+    const productSummary = {
+      id: thisProduct.id,
+      name: thisProduct.data.name,
+      amount: thisProduct.amountWidget.value,
+      priceSingle: thisProduct.priceSingle,
+      price: thisProduct.price,
+      params: thisProduct.prepareCartProductParams()
+    };
     return productSummary;
   }
 
@@ -183,7 +182,6 @@ class Product {
     thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
   }
-
 
   initAmountWidget(){
     const thisProduct = this;
@@ -503,6 +501,8 @@ class CartProduct {
     thisCartProduct.priceSingle = menuProduct.priceSingle;
     thisCartProduct.price = menuProduct.price;
     thisCartProduct.amount = menuProduct.amount;
+    thisCartProduct.params = menuProduct.params;
+    
     thisCartProduct.getElements(element);
     thisCartProduct.amountWidget();
     thisCartProduct.initActions();
@@ -556,11 +556,10 @@ class CartProduct {
     });
   }
 
-
   getData (){
     const thisCartProduct = this;
 
-    const prod = {
+    thisCartProduct.dataOf = {
       id: thisCartProduct.id,
       amount: thisCartProduct.amount,
       price: thisCartProduct.price,
@@ -568,14 +567,10 @@ class CartProduct {
       name: thisCartProduct.name,
       params: thisCartProduct.params,
     };
-    return prod;
-  
-
-
+    
+    return thisCartProduct.dataOf;  
+  }
 }
-}
-
-
 
   const app = {
 
@@ -590,8 +585,6 @@ class CartProduct {
       const thisApp = this;
 
       console.log('thisApp.data:', thisApp.data);
-      // const testProduct = new Product();
-      // console.log('testProduct:', testProduct);
       for(let productData in thisApp.data.products){
         new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
@@ -601,7 +594,6 @@ class CartProduct {
       const thisApp = this;
 
       thisApp.data = {};
-      // thisApp.data = dataSource;
       const url = settings.db.url + '/' + settings.db.products;
       fetch(url)
       .then(function(rawResponse){
@@ -624,11 +616,6 @@ class CartProduct {
     init: function(){
       const thisApp = this;
 
-      // console.log('*** App starting ***');
-      // console.log('thisApp:', thisApp);
-      // console.log('classNames:', classNames);
-      // console.log('settings:', settings);
-      // console.log('templates:', templates);
       thisApp.initData();
       // thisApp.initMenu();
       thisApp.initCart();
