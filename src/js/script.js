@@ -559,7 +559,7 @@ class CartProduct {
   getData (){
     const thisCartProduct = this;
 
-    thisCartProduct.dataOf = {
+      const prod = {
       id: thisCartProduct.id,
       amount: thisCartProduct.amount,
       price: thisCartProduct.price,
@@ -568,7 +568,7 @@ class CartProduct {
       params: thisCartProduct.params,
     };
     
-    return thisCartProduct.dataOf;  
+    return prod;  
   }
 }
 
